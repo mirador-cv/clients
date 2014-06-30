@@ -53,7 +53,7 @@ For Node we're making use of [restler](https://github.com/danwrong/restler); rig
 var mirador = require('mirador');
 var mc = new mirador.MiradorClient('your_key_here');
 
-mc.classifyFiles('bathing-suit.jpg', 'nsfw-user-upload.png', function (results, err) {
+mc.classifyFiles(['bathing-suit.jpg', 'nsfw-user-upload.png'], function (results, err) {
 
   results.forEach(function (result) {
     console.log('name: ' + result.name + ' safe: ' + result.safe + ' value: ' + result.value);
@@ -61,7 +61,7 @@ mc.classifyFiles('bathing-suit.jpg', 'nsfw-user-upload.png', function (results, 
 
 });
 
-mc.classifyUrls('http://possibly-nsfw.com/cool.png', 'http://mysite.net/image/bad-picture.jpg', function (results, err) {
+mc.classifyUrls(['http://possibly-nsfw.com/cool.png', 'http://mysite.net/image/bad-picture.jpg'], function (results, err) {
 
   results.forEach(function (result) {
     console.log('name: ' + result.name + ' safe: ' + result.safe + ' value: ' + result.value);
