@@ -51,24 +51,54 @@ var Mirador = rest.service(function (apikey) {
 
   },
 
-  classifyFiles: function (files, done) {
-    files = typeof files == 'string' ? [files] : files;
-
-    // read the files
-    var processed = files.map(function (f) {
-      return fs.readFileSync(f).toString('base64').replace('\n', '');
-    });
+  _classifyBase: function (files, images, done) {
 
     var req = this.post(
-      '/v1/classify', {data: { api_key: this.defaults.api_key, image: processed }}
-    );
+      '/v1/classify',
+      {
+        data: {
+          api_key: this.defaults.api_key,
+          image: images
+        }
+      });
 
     req.on('complete', resultHandler(files, done));
     req.on('error', function (err) {
       done(null, err);
     });
 
-  }
+  },
+
+  classifyFiles: function (files, done) {
+    files = typeof files == 'string' ? [files] : files;
+
+
+    // read files & convert to base64
+    var processed = files.map(function (f) {
+      return fs.readFileSync(f).toString('base64').replace('\n', '');
+    });
+
+
+    this._classifyBase(files, processed, done);
+  },
+
+  classifyRaw: function (buffers, done) {
+    var k, processed = [], names = [];
+
+    for(k in buffers) {
+      (function(name, buffer) {
+
+        names.push(name);
+        processed.push(
+          buffer.toString('base64').replace("\n", '')
+        );
+
+      }(k, buffers[k]));
+    }
+
+
+    this._classifyBase(names, process, done);
+  },
 
 });
 
@@ -79,7 +109,7 @@ module.exports = {
 
 var main = function () {
 
-  var mirador = new Mirador('your_key_here');
+  var mirador = new Mirador('demo69');
 
   var result = mirador.classifyFiles(process.argv.slice(2), function (res, err) {
 

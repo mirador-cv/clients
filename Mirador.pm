@@ -88,6 +88,11 @@ sub classify_base64 {
   my ($self, $files, $strs) = @_;
   my $url = $self->_url;
 
+  open EX_FILE, '>', 'b64_test_out.txt';
+  print EX_FILE "$strs->[0]\n";
+  close EX_FILE;
+
+
   my $res = $self->_ua->post(
     $url, form => $self->_default(image => $strs),
   )->res->json;
@@ -100,10 +105,10 @@ sub classify_base64 {
 unless (caller) {
   use Data::Dumper;
 
-  my $mirador = Mirador->new('your_key_here');
+  my $mirador = Mirador->new('demo69');
   print $mirador;
 
-  my $res = $mirador->classify_urls(@ARGV);
+  my $res = $mirador->classify_files(@ARGV);
   print Dumper($res);
 
 }
