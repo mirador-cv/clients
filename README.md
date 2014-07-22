@@ -9,40 +9,17 @@ This repo contains implementations in a few languages, and even a couple of comm
 * **`value`**: (float, 0.0-1.0) the raw rating from the Mirador API; you can tune your own threshold
 
 ## Python
-The mirador python wrapper uses the popular [requests](http://docs.python-requests.org/en/latest/) library.
+For the python library, please go to [github.com/mirador-cv/mirador-py](http://github.com/mirador-cv/mirador-py)
 
-```python
-
-import mirador
-
-mc = MiradorClient('your_key_here')
-
-for result in mc.classify_files('bathing-suit.jpg', 'nsfw-user-upload.png'):
-    print "image: {0}, safe: {1}, value: {2}".format(result.name, result.safe, result.value)
-
-for result in mc.classify_urls('http://possibly-nsfw.com/cool.png', 'http://mysite.net/image/bad-picture.jpg'):
-    print "image: {0}, safe: {1}, value: {2}".format(result.name, result.safe, result.value)
-
+```bash
+pip install mirador
 ```
 
-To get started, just do a simple: `pip install requests` and copy `mirador.py` into your project
-
 ## Ruby
-Naturally our Ruby wrapper uses [httparty](http://johnnunemaker.com/httparty/), so if you don't have it, please `gem install httparty`
+For the ruby library, please go to [github.com/mirador-cv/mirador-rb](http://github.com/mirador-cv/mirador-rb)
 
-```ruby
-
-require 'mirador'
-
-mc = Mirador::Client.new('your_key_here')
-mc.classify_files('bathing-suit.jpg', 'nsfw-user-upload.png').each do |result|
-  puts "name: #{ result.name }, safe: #{ result.safe }, value: #{ result.value }"
-end
-
-mc.classify_urls('http://possibly-nsfw.com/cool.png', 'http://mysite.net/image/bad-picture.jpg').each do |result|
-  puts "name: #{ result.name }, safe: #{ result.safe }, value: #{ result.value }"
-end
-
+```bash
+gem install mirador
 ```
 
 ## Node.js (Javascript)
@@ -70,3 +47,28 @@ mc.classifyUrls(['http://possibly-nsfw.com/cool.png', 'http://mysite.net/image/b
 });
 
 ```
+
+[node.js examples](mirador.js)
+
+
+## PHP
+We don't currently have a client for PHP, altho it's actually super easy to get started:
+
+(using composer and [GuzzleHttp](http://docs.guzzlephp.org)):
+
+```php
+
+// one image/url with id attached
+$req = $client->createRequest('POST', 'http://api.mirador.im/v1/classify', [
+  'body' => [
+    'api_key' => 'your_api_key',
+    'url' => [
+      'id' => 'nsfw',
+      'data' => 'http://demo.mirador.im/test/nsfw.jpg'
+    ]
+
+  ]
+]);
+
+```
+[php examples](Mirador.php)
