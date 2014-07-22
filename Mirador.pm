@@ -105,7 +105,7 @@ sub classify_base64 {
 unless (caller) {
   use Data::Dumper;
 
-  my $mirador = Mirador->new('demo69');
+  my $mirador = Mirador->new('your_api_key');
   print $mirador;
 
   my $res = $mirador->classify_files(@ARGV);

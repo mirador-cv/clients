@@ -109,7 +109,7 @@ module.exports = {
 
 var main = function () {
 
-  var mirador = new Mirador('demo69');
+  var mirador = new Mirador('your_api_key');
 
   var result = mirador.classifyFiles(process.argv.slice(2), function (res, err) {
 
